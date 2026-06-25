@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Idoia Esteban — Art Direction / Production Design</title>
+  <meta name="description" content="Idoia Esteban — Art Direction / Production Design. Minimal editorial work archive." />
+  <style>
+    :root{
+      --bg:#fbfbf8;
+      --ink:#15130f;
+      --muted:#7f7a72;
+      --line:rgba(22,19,15,.09);
+      --ease:cubic-bezier(.16,1,.3,1);
+      --serif: Georgia, 'Times New Roman', Times, serif;
+      --sans: Arial, Helvetica, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{background:var(--bg);scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:var(--serif);
+      font-size:8px;
+      line-height:1.12;
+      letter-spacing:-.012em;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+    body.lock{overflow:hidden}
+    a,button{font:inherit;color:inherit;background:none;border:0;padding:0;text-decoration:none;cursor:pointer}
+    ::selection{background:#15130f;color:#fbfbf8}
+
+    /* fixed editorial shell */
+    .top-left,.lang,.footer-name,.footer-email{
+      position:fixed;
+      z-index:80;
+      font-size:8px;
+      line-height:1;
+      color:#16130f;
+      mix-blend-mode:multiply;
+      white-space:nowrap;
+    }
+    .top-left{left:18px;top:17px;letter-spacing:.005em}
+    .lang{right:18px;top:17px;display:flex;gap:6px;align-items:center}
+    .lang button{opacity:.43;transition:opacity .28s var(--ease)}
+    .lang button.active,.lang button:hover{opacity:1}
+    .footer-name{left:18px;bottom:16px;letter-spacing:.005em;text-transform:none}
+    .footer-email{right:18px;bottom:16px;letter-spacing:.005em}
+
+    .main-nav{
+      position:fixed;
+      z-index:112;
+      left:3.2vw;
+      right:3.2vw;
+      top:50.5vh;
+      transform:translateY(-50%);
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      align-items:center;
+      pointer-events:none;
+    }
+    .main-nav a,.main-nav button{
+      pointer-events:auto;
+      justify-self:center;
+      font-size:8px;
+      opacity:.98;
+      transition:opacity .25s var(--ease), letter-spacing .55s var(--ease), transform .55s var(--ease);
+      white-space:nowrap;
+    }
+    .main-nav a:hover,.main-nav button:hover,.main-nav .active{opacity:.45;letter-spacing:.045em;transform:translateY(-1px)}
+    .main-nav a::before,.main-nav button::before{content:'[';margin-right:4px;color:#827c73}
+    .main-nav a::after,.main-nav button::after{content:']';margin-left:4px;color:#827c73}
+
+    .view{
+      display:none;
+      opacity:0;
+      transform:translateY(8px);
+      transition:opacity .78s var(--ease), transform .95s var(--ease);
+      min-height:100svh;
+      position:relative;
+      z-index:2;
+    }
+    .view.active{display:block;opacity:1;transform:translateY(0)}
+
+    /* visual blocks */
+    .poster,.still,.poster-small{
+      position:relative;
+      overflow:hidden;
+      width:100%;height:100%;
+      background:linear-gradient(145deg,var(--a),var(--b) 51%,var(--c));
+      box-shadow:0 1px 3px rgba(0,0,0,.045);
+      isolation:isolate;
+    }
+    .poster::before,.still::before,.poster-small::before{
+      content:'';
+      position:absolute;inset:-14%;
+      background:
+        radial-gradient(circle at 18% 16%,rgba(255,255,255,.55),transparent 21%),
+        radial-gradient(circle at 79% 72%,rgba(0,0,0,.16),transparent 27%),
+        linear-gradient(90deg,transparent 0 48%,rgba(255,255,255,.22) 48% 52%,transparent 52% 100%);
+      opacity:.76;
+      mix-blend-mode:soft-light;
+    }
+    .poster::after,.still::after,.poster-small::after{
+      content:'';
+      position:absolute;inset:0;
+      background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);
+      background-size:17px 17px;
+      opacity:.2;
+      mix-blend-mode:overlay;
+    }
+    .poster-meta{
+      position:absolute;z-index:3;
+      top:8px;left:8px;right:8px;
+      display:flex;justify-content:space-between;gap:10px;
+      font-size:7px;color:rgba(18,16,13,.78);
+    }
+    .poster-title{
+      position:absolute;z-index:3;
+      left:9px;right:9px;bottom:10px;
+      font-size:clamp(21px,3.4vw,52px);
+      line-height:.78;
+      letter-spacing:-.09em;
+      text-transform:uppercase;
+      color:rgba(18,14,11,.88);
+    }
+
+    /* HOME: vertical archive, not a normal grid */
+    #home{min-height:430vh;padding-top:26px}
+    .home-strip{
+      width:min(72vw,820px);
+      min-width:520px;
+      margin:0 auto;
+      padding:0 0 88vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8vh;
+    }
+    .home-item{
+      width:var(--w,430px);
+      aspect-ratio:var(--ar,.72);
+      transform:translate3d(0,0,0);
+      position:relative;
+      will-change:transform;
+      transition:opacity .42s var(--ease), filter .42s var(--ease);
+    }
+    .home-item:nth-child(1){--w:530px;--ar:.72;--x:0px}
+    .home-item:nth-child(2){--w:485px;--ar:.70;--x:0px}
+    .home-item:nth-child(3){--w:545px;--ar:.76;--x:0px}
+    .home-item:nth-child(4){--w:570px;--ar:1.42;--x:0px}
+    .home-item:nth-child(5){--w:660px;--ar:1.38;--x:0px}
+    .home-item:nth-child(6){--w:500px;--ar:.70;--x:0px}
+    .home-item:nth-child(7){--w:575px;--ar:.82;--x:0px}
+    .home-item:nth-child(8){--w:490px;--ar:.72;--x:0px}
+    .home-item:hover{opacity:.64;filter:contrast(1.04)}
+    .home-caption{
+      position:absolute;
+      left:0;
+      right:0;
+      top:calc(100% + 5px);
+      transform:none;
+      white-space:nowrap;
+      font-size:8px;
+      color:#201c18;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .home-caption span{display:inline;color:#837c73;margin-top:0}
+
+    /* INFORMATION: compact, no title block */
+    #information{padding:0 8vw;min-height:205svh}
+    .info-wrap{
+      min-height:205svh;
+      padding:42vh 0 84vh;
+      display:grid;
+      grid-template-columns:1fr minmax(250px,340px) minmax(190px,260px) 1fr;
+      gap:7vw;
+      align-items:start;
+    }
+    .info-main{
+      grid-column:2;
+      font-size:9px;
+      line-height:1.15;
+      max-width:340px;
+    }
+    .info-main p{margin:0 0 9px}
+    .info-tags{
+      grid-column:3;
+      font-size:8px;
+      line-height:1.12;
+      color:#1b1814;
+    }
+    .info-tags div{
+      display:grid;
+      grid-template-columns:42px 1fr;
+      gap:18px;
+      margin-bottom:3px;
+    }
+    .info-tags span:first-child{color:#8a837a}
+
+    /* WORK */
+    #work{padding:70px 5vw 140px;min-height:100svh}
+    .work-toggle{
+      position:sticky;
+      top:16px;
+      z-index:40;
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      font-size:8px;
+      margin-bottom:7vh;
+      pointer-events:none;
+    }
+    .work-toggle button{pointer-events:auto;opacity:.9}
+    .work-toggle button.active{text-decoration:underline;text-underline-offset:2px}
+    .work-toggle button::before{content:'[';margin-right:4px;color:#827c73}
+    .work-toggle button::after{content:']';margin-left:4px;color:#827c73}
+
+    .work-overview{
+      width:min(1120px,92vw);
+      margin:0 auto;
+      position:relative;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(270px,340px));
+      justify-content:center;
+      align-items:start;
+      column-gap:28px;
+      row-gap:38px;
+      min-height:auto;
+      padding-bottom:18vh;
+    }
+    .work-card{
+      position:relative;
+      left:auto;
+      top:auto;
+      width:100%;
+      transform:none;
+      transition:opacity .35s var(--ease), filter .35s var(--ease), transform .8s var(--ease);
+      will-change:transform;
+    }
+    .work-card:hover{opacity:.58;filter:contrast(1.06)}
+    .work-card .poster-small{aspect-ratio:var(--ar,.72)}
+    .work-card figcaption{
+      margin-top:4px;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      font-size:8px;
+      line-height:1.05;
+    }
+    .work-card figcaption span:last-child{color:#8a8379}
+
+    .work-list{
+      display:none;
+      width:min(620px,84vw);
+      margin:2vh auto 0;
+      font-size:9px;
+      line-height:1.2;
+    }
+    .row{
+      display:grid;
+      grid-template-columns:30px 1fr 42px 160px;
+      gap:14px;
+      padding:2px 0;
+      border-bottom:1px solid rgba(0,0,0,.035);
+      transition:opacity .24s var(--ease), letter-spacing .5s var(--ease);
+    }
+    .row:hover{opacity:.47;letter-spacing:.035em}
+    .row .year,.row .role{color:#817a71}
+    .row .role{text-align:right}
+    #work.list .work-overview{display:none}
+    #work.list .work-list{display:block}
+
+    /* modal: same-page enlarged poster with grid over it */
+    .detail{
+      position:fixed;
+      z-index:120;
+      inset:0;
+      background:rgba(251,251,248,.95);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .48s var(--ease);
+      display:grid;
+      place-items:center;
+      padding:70px 28px 76px;
+      overflow-y:auto;
+      overscroll-behavior:contain;
+    }
+    .detail.open{opacity:1;pointer-events:auto}
+    .detail-close{
+      position:absolute;
+      right:18px;top:17px;
+      z-index:4;
+      font-size:8px;
+    }
+    .detail-close::before{content:'Close [';color:#7f786f}
+    .detail-close::after{content:']';color:#7f786f}
+    .detail-meta{
+      position:absolute;
+      left:18px;top:17px;
+      z-index:4;
+      font-size:8px;
+      line-height:1.11;
+      max-width:260px;
+    }
+    .detail-poster{
+      position:relative;
+      width:min(74vw,840px);
+      max-height:none;
+      aspect-ratio:.72;
+      overflow:hidden;
+      background:linear-gradient(145deg,var(--a),var(--b) 52%,var(--c));
+      box-shadow:0 14px 60px rgba(0,0,0,.07);
+      transform:scale(.88) translateY(18px);
+      opacity:0;
+      transition:transform .8s var(--ease), opacity .8s var(--ease);
+    }
+    .detail.open .detail-poster{transform:scale(1) translateY(0);opacity:1}
+    .detail-poster::before{
+      content:'';
+      position:absolute;inset:0;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.32),transparent 28%,rgba(0,0,0,.14)),
+        radial-gradient(circle at 78% 18%,rgba(255,255,255,.45),transparent 20%),
+        radial-gradient(circle at 12% 88%,rgba(0,0,0,.18),transparent 27%);
+      mix-blend-mode:soft-light;
+      z-index:1;
+    }
+    .detail-poster-title{
+      position:absolute;
+      left:19px;right:18px;bottom:17px;
+      z-index:4;
+      font-size:clamp(46px,8vw,105px);
+      line-height:.76;
+      letter-spacing:-.1em;
+      text-transform:uppercase;
+      color:rgba(18,14,10,.82);
+      pointer-events:none;
+    }
+    .detail-poster-info{
+      position:absolute;
+      left:17px;right:17px;top:15px;
+      z-index:4;
+      font-size:8px;
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      color:rgba(18,15,12,.76);
+    }
+    .scene-overlay{
+      position:absolute;
+      z-index:3;
+      inset:14% 7% 21%;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      grid-template-rows:repeat(4,1fr);
+      gap:9px;
+      transform:rotate(-.35deg);
+      opacity:.83;
+    }
+    .scene{
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(var(--ang),rgba(255,255,255,.24),transparent 46%),
+        linear-gradient(135deg,var(--sa),var(--sb));
+      filter:saturate(.86) contrast(.95);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+    }
+    .scene::after{
+      content:attr(data-scene);
+      position:absolute;left:6px;top:6px;
+      font-size:7px;
+      color:rgba(18,15,12,.66);
+    }
+    .scene::before{
+      content:'';
+      position:absolute;inset:-22%;
+      background:radial-gradient(circle at 50% 50%,transparent 0 18%,rgba(0,0,0,.10) 19% 20%,transparent 21% 100%);
+      background-size:54px 54px;
+      opacity:.28;
+      mix-blend-mode:multiply;
+    }
+
+    .noise{
+      pointer-events:none;
+      position:fixed;
+      z-index:200;
+      inset:0;
+      opacity:.028;
+      mix-blend-mode:multiply;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+    }
+
+    @media (max-width:760px){
+      .top-left{left:10px;top:10px;font-size:7px}
+      .lang{right:10px;top:10px;font-size:7px}
+      .footer-name{left:10px;bottom:18px;font-size:7px;max-width:48vw;white-space:normal;line-height:1.05}
+      .footer-email{right:10px;bottom:18px;font-size:7px;max-width:45vw;text-align:right;white-space:normal;line-height:1.05}
+      .main-nav{left:9px;right:9px;top:65vh;grid-template-columns:repeat(4,auto);justify-content:space-between}
+      .main-nav a,.main-nav button{font-size:7px}
+      #home{min-height:380vh;padding-top:34px}
+      .home-strip{width:76vw;min-width:0;gap:11.5vh;padding-bottom:78vh}
+      .home-item{width:78vw !important;transform:translate3d(0,0,0) !important}
+      .home-item:nth-child(4){width:62vw !important;align-self:flex-start;margin-left:7vw}
+      .home-item:nth-child(5){width:84vw !important}
+      .home-item:nth-child(8){width:66vw !important;align-self:flex-end;margin-right:5vw}
+      .home-caption{left:0;top:calc(100% + 4px);transform:none;width:100%;font-size:7px;display:flex;justify-content:space-between}
+      .home-caption span{display:inline;margin:0}
+
+      #information{padding:0 10px;min-height:150svh}
+      .info-wrap{display:block;padding:23vh 0 45vh;min-height:150svh}
+      .info-main{width:84vw;margin:0 auto 18px;font-size:8px}
+      .info-tags{width:84vw;margin:0 auto;font-size:7px}
+      .info-tags div{grid-template-columns:36px 1fr;gap:14px;margin-bottom:3px}
+
+      #work{padding:58px 10px 120px}
+      .work-toggle{top:10px;margin-bottom:6vh;font-size:7px;gap:12px}
+      .work-overview{width:100%;min-height:235vh;display:block;padding-bottom:0}
+      .work-card{position:absolute;left:var(--l);top:var(--t);width:var(--mw) !important;transform:translateX(-50%)}
+      .work-card figcaption{font-size:7px;gap:6px}
+      .row{grid-template-columns:22px 1fr 34px;gap:8px;font-size:8px}
+      .row .role{display:none}
+      .detail{padding:22px 10px}
+      .detail-meta,.detail-close{top:10px;font-size:7px}
+      .detail-meta{left:10px;max-width:210px}
+      .detail-close{right:10px}
+      .detail-poster{width:94vw;max-height:77svh;aspect-ratio:.74}
+      .detail-poster-title{font-size:50px;left:12px;right:12px;bottom:13px}
+      .detail-poster-info{left:12px;right:12px;top:10px;font-size:7px}
+      .scene-overlay{inset:14% 5% 22%;gap:6px}
+      .scene::after{font-size:7px;left:5px;top:5px}
+    }
+  </style>
+</head>
+<body>
+  <div class="top-left">Art Direction / Production Design</div>
+  <div class="lang"><button id="espBtn" class="active" type="button">ESP</button><span>—</span><button id="engBtn" type="button">English</button></div>
+  <div class="footer-name">Idoia Esteban</div>
+  <a class="footer-email" href="mailto:contact@idoiaesteban.com">contact@idoiaesteban.com</a>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <button type="button" data-view="home" class="active">Home</button>
+    <button type="button" data-view="information">Information</button>
+    <button type="button" data-view="work">Work</button>
+    <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+  </nav>
+
+  <main>
+    <section id="home" class="view active" aria-label="Home">
+      <div class="home-strip" id="homeStrip"></div>
+    </section>
+
+    <section id="information" class="view" aria-label="Information">
+      <div class="info-wrap">
+        <div class="info-main" id="infoText"></div>
+        <div class="info-tags" id="infoTags"></div>
+      </div>
+    </section>
+
+    <section id="work" class="view" aria-label="Work">
+      <div class="work-toggle">
+        <button type="button" id="overviewBtn" class="active">Overview</button>
+        <button type="button" id="listBtn">List</button>
+      </div>
+      <div class="work-overview" id="workOverview"></div>
+      <div class="work-list" id="workList"></div>
+    </section>
+  </main>
+
+  <div class="detail" id="detail" role="dialog" aria-modal="true" aria-label="Project detail">
+    <div class="detail-meta" id="detailMeta"></div>
+    <button type="button" class="detail-close" id="detailClose"> </button>
+    <article class="detail-poster" id="detailPoster">
+      <div class="detail-poster-info" id="detailPosterInfo"></div>
+      <div class="scene-overlay" id="sceneOverlay"></div>
+      <div class="detail-poster-title" id="detailPosterTitle"></div>
+    </article>
+  </div>
+
+  <div class="noise"></div>
+
+<script>
+(() => {
+  const projects = [
+    {title:'Superstar', year:'2025', role:'Production Design', a:'#ecd9d7', b:'#cf4c62', c:'#28171d'},
+    {title:'Daniela Forever', year:'2024', role:'Production Design', a:'#d8e5ed', b:'#9eb4c0', c:'#574c65'},
+    {title:'Mari(dos)', year:'2023', role:'Production Design', a:'#ead8bb', b:'#7f8c70', c:'#2d3528'},
+    {title:'Piety', year:'2022', role:'Production Design', a:'#c7c6bf', b:'#8d6a65', c:'#2e2522'},
+    {title:'Rainbow', year:'2022', role:'Production Design / Art Direction', a:'#e7c9e8', b:'#efb85f', c:'#4461ad'},
+    {title:'A mil kilómetros de la Navidad', year:'2021', role:'Set Decoration / Production Design', a:'#f0efe8', b:'#bd2d31', c:'#31553b'},
+    {title:'Way Down', year:'2021', role:'Set Decoration / Art Direction', a:'#d7d4c8', b:'#b8954e', c:'#25334c'},
+    {title:'Si yo fuera rico', year:'2019', role:'Art Direction', a:'#f1d6a1', b:'#68a2a3', c:'#40271c'},
+    {title:'El doble más quince', year:'2019', role:'Art Direction', a:'#ded9cf', b:'#a98476', c:'#44312e'},
+    {title:'En las estrellas', year:'2018', role:'Art Direction / Production Design', a:'#d8d4e7', b:'#6274a5', c:'#171d34'},
+    {title:'Lo siento, mi amor', year:'2018', role:'Production Design / Art Direction', a:'#f0d5d1', b:'#ad6a6c', c:'#271717'},
+    {title:'Que baje Dios y lo vea', year:'2017', role:'Art Direction / Production Design', a:'#e9e3c8', b:'#83a373', c:'#273020'},
+    {title:'Pieles', year:'2017', role:'Art Direction', a:'#f3c2d4', b:'#d986a6', c:'#4e1f32'},
+    {title:'Contratiempo', year:'2016', role:'Set Decoration', a:'#d7dde1', b:'#68727c', c:'#0f151c'},
+    {title:'Cuerpo de élite', year:'2016', role:'Set Decoration', a:'#c8dfd9', b:'#6d908a', c:'#1b3330'},
+    {title:'Los miércoles no existen', year:'2015', role:'Production Design / Art Direction', a:'#ece6dd', b:'#b88e76', c:'#4f4039'},
+    {title:'A escondidas', year:'2014', role:'Production Design / Art Direction', a:'#d0d9d7', b:'#849a9e', c:'#202e33'},
+    {title:'Extraterrestre', year:'2011', role:'Set Decoration / Art Direction', a:'#dad7c8', b:'#8c8978', c:'#191a18'}
+  ];
+
+  const copy = {
+    es: {
+      info: [
+        'Idoia Esteban trabaja entre dirección de arte, diseño de producción, decoración de sets e investigación visual para cine y televisión.',
+        'Su trabajo se mueve en la construcción de atmósferas: espacios, objetos, texturas, color, memoria material y pequeñas decisiones que hacen creíble una imagen.',
+      ],
+      tags: ['Idoia Esteban','Basque Country / Madrid','Art Direction','Production Design','Set Decoration','Visual Research','Film Atmosphere','Cinema','Television']
+    },
+    en: {
+      info: [
+        'Idoia Esteban works across art direction, production design, set decoration and visual research for film and television.',
+        'Her work is built through atmosphere: spaces, objects, textures, colour, material memory and small decisions that make an image believable.',
+      ],
+      tags: ['Idoia Esteban','Basque Country / Madrid','Art Direction','Production Design','Set Decoration','Visual Research','Film Atmosphere','Cinema','Television']
+    }
+  };
+
+  const $ = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+
+  const homeStrip = $('#homeStrip');
+  const workOverview = $('#workOverview');
+  const workList = $('#workList');
+  const infoText = $('#infoText');
+  const infoTags = $('#infoTags');
+  const detail = $('#detail');
+  const detailPoster = $('#detailPoster');
+  const detailPosterTitle = $('#detailPosterTitle');
+  const detailPosterInfo = $('#detailPosterInfo');
+  const detailMeta = $('#detailMeta');
+  const sceneOverlay = $('#sceneOverlay');
+
+  let lang = 'es';
+
+  function setVars(el,p){
+    el.style.setProperty('--a',p.a);
+    el.style.setProperty('--b',p.b);
+    el.style.setProperty('--c',p.c);
+  }
+  function shortTitle(t){
+    return t
+      .replace('A mil kilómetros de la Navidad','1000 km Navidad')
+      .replace('Los miércoles no existen','Miércoles')
+      .replace('Que baje Dios y lo vea','Holy Goalie');
+  }
+  function poster(p, cls='poster'){
+    const el = document.createElement('div');
+    el.className = cls;
+    setVars(el,p);
+    el.innerHTML = `<div class="poster-meta"><span>${p.year}</span><span>${p.role}</span></div><div class="poster-title">${shortTitle(p.title)}</div>`;
+    return el;
+  }
+
+  function renderInfo(){
+    infoText.innerHTML = copy[lang].info.map(t=>`<p>${t}</p>`).join('');
+    infoTags.innerHTML = copy[lang].tags.map((t,i)=>`<div><span>${String(i+1).padStart(2,'0')}</span><span>${t}</span></div>`).join('');
+    $('#espBtn').classList.toggle('active', lang==='es');
+    $('#engBtn').classList.toggle('active', lang==='en');
+  }
+
+  projects.slice(0,8).forEach((p,i)=>{
+    const b = document.createElement('button');
+    b.className = 'home-item js-project';
+    b.dataset.index = i;
+    b.dataset.depth = (0.055 + (i%4)*0.032).toFixed(3);
+    b.appendChild(poster(p, i===3 || i===4 ? 'still' : 'poster'));
+    b.insertAdjacentHTML('beforeend', `<div class="home-caption">${p.title}<span>${String(i+1).padStart(3,'0')}</span></div>`);
+    homeStrip.appendChild(b);
+  });
+
+  const positions = [
+    ['16%','3vh','210px','.72','45vw'],['39%','7vh','185px','.70','40vw'],['62%','2vh','198px','.72','43vw'],['83%','8vh','176px','.72','38vw'],
+    ['25%','35vh','230px','1.34','51vw'],['51%','42vh','205px','.72','44vw'],['75%','34vh','238px','1.28','52vw'],
+    ['15%','79vh','190px','.72','41vw'],['38%','88vh','215px','.72','46vw'],['61%','78vh','180px','.72','39vw'],['84%','86vh','222px','.72','48vw'],
+    ['27%','124vh','240px','1.34','52vw'],['54%','132vh','195px','.72','42vw'],['78%','122vh','232px','.72','50vw'],
+    ['17%','170vh','205px','.72','44vw'],['43%','177vh','238px','1.2','52vw'],['70%','168vh','198px','.72','43vw'],['88%','179vh','180px','.72','39vw']
+  ];
+  projects.forEach((p,i)=>{
+    const [l,t,w,ar,mw]=positions[i];
+    const f = document.createElement('figure');
+    f.className = 'work-card js-project';
+    f.dataset.index=i;
+    f.dataset.depth = (0.018 + (i%5)*0.018).toFixed(3);
+    f.style.setProperty('--l',l);
+    f.style.setProperty('--t',t);
+    f.style.setProperty('--w',w);
+    f.style.setProperty('--ar',ar);
+    f.style.setProperty('--mw',mw);
+    f.appendChild(poster(p,'poster-small'));
+    f.insertAdjacentHTML('beforeend', `<figcaption><span>${p.title}<br>${p.year}</span><span>${String(i+1).padStart(3,'0')}</span></figcaption>`);
+    workOverview.appendChild(f);
+  });
+
+  projects.forEach((p,i)=>{
+    const row = document.createElement('button');
+    row.className='row js-project';
+    row.dataset.index=i;
+    row.innerHTML = `<span>${String(i+1).padStart(3,'0')}</span><span>${p.title}</span><span class="year">${p.year}</span><span class="role">${p.role}</span>`;
+    workList.appendChild(row);
+  });
+
+  function sceneColors(p,i){
+    const palette = [p.a,p.b,p.c,'#f8f6f0','#1a1713','#b9b2a8'];
+    return [palette[(i+1)%palette.length], palette[(i+3)%palette.length]];
+  }
+  function scene(p,i){
+    const el = document.createElement('div');
+    el.className = 'scene';
+    el.dataset.scene = `Scene ${i+1}`;
+    const [sa,sb] = sceneColors(p,i);
+    el.style.setProperty('--sa',sa);
+    el.style.setProperty('--sb',sb);
+    el.style.setProperty('--ang',`${100 + i*24}deg`);
+    return el;
+  }
+
+  function openProject(i){
+    const p = projects[i];
+    setVars(detailPoster,p);
+    detailPosterTitle.textContent = shortTitle(p.title);
+    detailPosterInfo.innerHTML = `<span>${p.title}</span><span>${p.year}</span>`;
+    detailMeta.innerHTML = `${p.title}<br>${p.role}<br>${p.year}`;
+    sceneOverlay.innerHTML = '';
+    for(let n=0;n<8;n++) sceneOverlay.appendChild(scene(p,n));
+    document.body.classList.add('lock');
+    detail.classList.add('open');
+  }
+  function closeProject(){
+    detail.classList.remove('open');
+    document.body.classList.remove('lock');
+  }
+
+  document.addEventListener('click',e=>{
+    const p = e.target.closest('.js-project');
+    if(p) openProject(+p.dataset.index);
+  });
+  $('#detailClose').addEventListener('click',closeProject);
+  detail.addEventListener('click',e=>{ if(e.target===detail) closeProject(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeProject(); });
+
+  $$('.main-nav button[data-view]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const view = btn.dataset.view;
+      closeProject();
+      $$('.view').forEach(v=>v.classList.remove('active'));
+      $('#'+view).classList.add('active');
+      $$('.main-nav button[data-view]').forEach(b=>b.classList.toggle('active',b===btn));
+      requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'smooth'}));
+      setTimeout(parallax,80);
+    });
+  });
+
+  $('#overviewBtn').addEventListener('click',()=>{
+    $('#work').classList.remove('list');
+    $('#overviewBtn').classList.add('active');
+    $('#listBtn').classList.remove('active');
+  });
+  $('#listBtn').addEventListener('click',()=>{
+    $('#work').classList.add('list');
+    $('#listBtn').classList.add('active');
+    $('#overviewBtn').classList.remove('active');
+  });
+
+  $('#espBtn').addEventListener('click',()=>{lang='es';renderInfo();});
+  $('#engBtn').addEventListener('click',()=>{lang='en';renderInfo();});
+
+  let ticking=false;
+  function parallax(){
+    $$('.home-item,.work-card').forEach(el=>{
+      const d = parseFloat(el.dataset.depth || .03);
+      const rect = el.getBoundingClientRect();
+      const mid = rect.top + rect.height/2 - window.innerHeight/2;
+      const move = -mid * d;
+      if(el.classList.contains('home-item')){
+        const x = getComputedStyle(el).getPropertyValue('--x') || '0px';
+        el.style.transform = `translate3d(${x},${move.toFixed(2)}px,0)`;
+      }else{
+        if(window.matchMedia('(max-width:760px)').matches){
+          el.style.transform = `translateX(-50%) translate3d(0,${move.toFixed(2)}px,0)`;
+        }else{
+          el.style.transform = '';
+        }
+      }
+    });
+    ticking=false;
+  }
+  function onScroll(){
+    if(!ticking){requestAnimationFrame(parallax);ticking=true;}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  renderInfo();
+  parallax();
+})();
+</script>
+</body>
+</html>
